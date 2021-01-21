@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShoppingCarts.Views.CartPage"
+             xmlns:customContentView="clr-namespace:ShoppingCarts.ContentView;assembly=ShoppingCarts"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:ShoppingCarts.Converters"
+             NavigationPage.HasNavigationBar="false"
+             NavigationPage.HasBackButton="false"
+             x:Name="cartPage"
+             Title="Cart Page">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="BooleanInverseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"  />
+            <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource BooleanInverseConverter}}" >
+                <customContentView:CustomNavigationBar x:Name="NavigationBarView" Title="{Binding Title}"  />
+            </StackLayout>
+            <ListView x:Name="ItemsListView"
+                          IsVisible="{Binding IsBusy, Converter={StaticResource BooleanInverseConverter}}"
+                          HasUnevenRows="True"
+                          VerticalOptions="FillAndExpand"
+                          HorizontalOptions="FillAndExpand"
+                          ItemSelected="OnItemSelected"
+                          BackgroundColor="White"                      
+                          SeparatorVisibility="Default"
+                          IsGroupingEnabled="True"
+                          GroupDisplayBinding="{Binding Key}"
+                          GroupShortNameBinding="{Binding Key}"
+                          ItemsSource="{Binding ShoppingItemsGrouped}">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="35">
+                            <StackLayout VerticalOptions="Start"
+                                  Padding="5"
+                                  BackgroundColor="#c1b0b0">
+                                <Label Text="{Binding Key}" FontSize="Medium"  TextColor="White" VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <ffimageloading:CachedImage Source="{Binding Image}" LoadingPlaceholder="Items" HeightRequest="50" WidthRequest="50" Margin="10,2,2,2" />
+                                <StackLayout Margin="10,0,2,0">
+                                    <Label Text="{Binding Name}"  FontAttributes="Bold" TextColor="Black" VerticalOptions="Center"  Margin="0,4,0,0" FontSize="Large" />
+                                    <Label Text="{Binding Price, StringFormat='{0} руб.'}" HorizontalTextAlignment="Start" VerticalOptions="End" TextColor="Black" Margin="0,-2,0,0" />
+                                </StackLayout>
+                                <Button FontSize="Small" HorizontalOptions="EndAndExpand" BackgroundColor="#c6ccd1" TextColor="Black" FontAttributes="Bold" Margin="10" HeightRequest="1"
+                                        WidthRequest="120" Command="{Binding Source={x:Reference cartPage}, Path=BindingContext.OnItemButtonClickedCommand,Mode=TwoWay}" CommandParameter="{Binding .}" >
+                                    <Button.Text>
+                                        <Binding Path="IsInCart">
+                                            <Binding.Converter>
+                                                <converters:BooleanToObjectConverter x:TypeArguments="x:String"
+                                                         TrueObject="Удалить"
+                                                         FalseObject="В корзину" />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </Button.Text>
+                                </Button>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:ShoppingCarts.Converters"
+             x:Class="ShoppingCarts.Views.ItemDetailPage"
+             Title="О блюде">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="BooleanInverseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Padding="20,20,20,20">
+                <ffimageloading:CachedImage VerticalOptions="Start" HorizontalOptions="Center" LoadingPlaceholder="Items"
+                   Source="{Binding ImageSource}" HeightRequest="150" WidthRequest="150" />
+                <Label Text="{Binding ItemName}" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center" Margin="0,30,0,30" TextColor="Black" />
+                <Label Text="{Binding Description}" TextColor="Black" FontSize="Medium" />
+                <Label Text="{Binding Price, StringFormat='Цена {0} руб.'}" TextColor="Black" FontSize="Medium" />
+                <Button x:Name="AddCartButton" 
+                        Command="{Binding ButtonClicked}" 
+                        VerticalOptions="EndAndExpand" 
+                        Margin="0,0,0,5" 
+                        BackgroundColor="#c6ccd1" 
+                        TextColor="Black" 
+                        HeightRequest="45" >
+                    <Button.Text>
+                        <Binding Path="IsInCart">
+                            <Binding.Converter>
+                                <converters:BooleanToObjectConverter x:TypeArguments="x:String"
+                                                         TrueObject="Удалить"
+                                                         FalseObject="В корзину" />
+                            </Binding.Converter>
+                        </Binding>
+                    </Button.Text>
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

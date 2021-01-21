@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="FOSTapp.FOSTapp" android:installLocation="internalOnly" android:versionCode="1" android:versionName="1.1">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="25" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application android:label="FOSTapp" android:icon="@drawable/splash"></application>
+</manifest>

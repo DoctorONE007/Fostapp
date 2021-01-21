@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShoppingCarts.Views.MasterPage"
+             xmlns:local="using:ShoppingCarts.Model"
+             xmlns:localpages="clr-namespace:ShoppingCarts.Views"
+			 Icon="hamburger.png"
+			 Title="Shopping carts">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" BackgroundColor="#e20f0f">
+                <Image Source="dp" WidthRequest="70" HeightRequest="70" Margin="15,10,0,10" HorizontalOptions="Start" />
+                <Label Text="Здравствуйте, покупатель" TextColor="White" FontSize="Large" FontAttributes="Bold, Italic" Margin="10,0,0,0" VerticalOptions="Center" />
+            </StackLayout>
+            <ListView x:Name="listView" Margin="0,20,0,0">
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type local:MasterPageItem}">
+                        <local:MasterPageItem Title="Меню" TargetType="{x:Type localpages:CartPage}" ImageName="Cart" />
+                        
+                        
+                    </x:Array>
+                </ListView.ItemsSource>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="5,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="1" Text="{Binding Title}" TextColor="Black" FontSize="Medium" FontAttributes="Bold" />
+                                <Image Grid.Column="1" Source="{Binding ImageName}" HorizontalOptions="EndAndExpand" HeightRequest="25" WidthRequest="25" Margin="0,0,15,0">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCartImageTapped" NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

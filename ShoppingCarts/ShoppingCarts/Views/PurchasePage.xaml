@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:ShoppingCarts.Converters"
+             mc:Ignorable="d"
+             x:Class="ShoppingCarts.Views.PurchasePage"
+             Title="Оформление заказа">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="BooleanInverseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <StackLayout
+                IsVisible="{Binding IsBusy, Converter={StaticResource BooleanInverseConverter}}"
+                Margin="16">
+                <Image 
+                    WidthRequest="150"
+                    Aspect="AspectFit"
+                    Source="logo.png"/>
+                <Label
+                    Text="Для заказа заполните следующие данные"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    FontSize="Medium"
+                    Margin="10"/>
+                <Label
+                    Text="Поезд:"/>
+                <Entry
+                    Text="{Binding Train}"
+                    Placeholder="Номер поезда"/>
+                <Label
+                    Text="Номер вагона:"/>
+                <Entry
+                    Text="{Binding Carriage}"
+                    Placeholder="Номер вагона"
+                    Keyboard="Numeric"/>
+                <Label
+                    Text="Место:"/>
+                <Entry
+                    Text="{Binding Place}"
+                    Placeholder="Номер места"
+                    Keyboard="Numeric"/>
+                <Button
+                    Text="Заказать"
+                    Command="{Binding PurchaseCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInverseConverter}}"/>
+            </StackLayout>
+            <ProgressBar
+                IsVisible="{Binding IsBusy}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

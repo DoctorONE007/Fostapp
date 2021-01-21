@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="clr-namespace:ShoppingCarts.Converters"
+             mc:Ignorable="d"
+             x:Class="ShoppingCarts.Views.RegisterPage"
+             Title="Вход">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:BooleanInverseConverter x:Key="inverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView 
+            Orientation="Vertical">
+            <StackLayout
+                VerticalOptions="Center"
+                Margin="16">
+                <Label Text="Регистрация"
+                    HorizontalOptions="CenterAndExpand" />
+                <Label 
+                    Text="Имя:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding FirstName}"
+                    MaxLength="15"
+                    Placeholder="Имя"/>
+                <Label 
+                    Text="Отчество:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding MiddleName}"
+                    MaxLength="31"
+                    Placeholder="Отчество"/>
+                <Label 
+                    Text="Фамилия:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding LastName}"
+                    MaxLength="31"                
+                    Placeholder="Фамилия"/>
+                <Label 
+                    Text="E-Mail:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding Email}"
+                    Keyboard="Email"
+                    Placeholder="E-Mail"/>
+                <Label 
+                    Text="Номер телефона:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding Phone}"
+                    MaxLength="12"
+                    Keyboard="Telephone"                
+                    Placeholder="Телефон"/>
+                <Label 
+                    Text="Пароль:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding Password}"
+                    MaxLength="31"                
+                    Placeholder="Пароль"
+                    IsPassword="True"/>
+                <Label 
+                    Text="Пароль повторно:" 
+                    TextColor="Black" 
+                    FontSize="Small" />
+                <Entry
+                    Text="{Binding PasswordAgain}"
+                    MaxLength="31"                
+                    Placeholder="Пароль повторно"
+                    IsPassword="True"/>
+                <Button
+                    Text="Зарегистрироваться"
+                    Command="{Binding RegisterCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource inverter}}"/>
+                <Button
+                    Text="Форма авторизации"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource inverter}}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

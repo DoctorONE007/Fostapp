@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:ShoppingCarts.Converters"
+             x:Class="ShoppingCarts.Views.CartDetailPage"
+             x:Name="cartDetailPage"
+             Title="Корзина">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="BooleanInverseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <StackLayout IsVisible="{Binding ItemsInCart, Converter={StaticResource BooleanInverseConverter}}" Padding="5" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                <Label Text="Ваша корзина пуста" FontSize="Medium" VerticalOptions="Center" />
+            </StackLayout>
+            <StackLayout IsVisible="{Binding ItemsInCart}">
+                <Button Text="Удалить все" Command="{Binding RemoveAllButton}" BackgroundColor="#c6ccd1" FontSize="Medium"  TextColor="Black" Margin="10" HeightRequest="45" HorizontalOptions="End" />
+            </StackLayout>
+            
+            <ListView x:Name="ItemsListView"
+                          HasUnevenRows="True"
+                          IsVisible="{Binding ItemsInCart}"
+                          VerticalOptions="FillAndExpand"
+                          HorizontalOptions="FillAndExpand"
+                          ItemSelected="OnItemSelected"
+                          BackgroundColor="White"
+                          SeparatorVisibility="Default"
+                          ItemsSource="{Binding Cart}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <ffimageloading:CachedImage Source="{Binding Image}" LoadingPlaceholder="Items" HeightRequest="50" WidthRequest="50" Margin="10,2,2,2" />
+                                <StackLayout Margin="10,0,2,0">
+                                    <Label Text="{Binding Name}"  FontAttributes="Bold" TextColor="Black" VerticalOptions="Center"  Margin="0,4,0,0" FontSize="Large" />
+                                    <Label Text="{Binding Price, StringFormat='{0} руб.'}" HorizontalTextAlignment="Start" VerticalOptions="End" TextColor="Black" Margin="0,-2,0,0" />
+                                </StackLayout>
+                                <Button Text="Удалить"  FontSize="Small" HorizontalOptions="EndAndExpand" BackgroundColor="#c6ccd1" TextColor="Black" FontAttributes="Bold" Margin="10" HeightRequest="1"
+                                        WidthRequest="120" Command="{Binding Source={x:Reference cartDetailPage}, Path=BindingContext.OnItemButtonClickedCommand,Mode=TwoWay}" CommandParameter="{Binding .}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label 
+                Text="{Binding CartSum, StringFormat='Сумма {0} руб.'}" 
+                FontSize="Medium" 
+                VerticalOptions="Center" 
+                IsVisible="{Binding ItemsInCart}"/>
+            <StackLayout IsVisible="{Binding ItemsInCart}">
+                <Button Text="Оплатить" Command="{Binding PurchaseCommand}" BackgroundColor="#c6ccd1" FontSize="Medium"  TextColor="Black" Margin="10" HeightRequest="45" HorizontalOptions="Center" VerticalOptions="End" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
